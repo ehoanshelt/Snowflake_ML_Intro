@@ -1,16 +1,15 @@
-name: snowflake_ml
+name: snowflake_ml_py311
 channels:
   - anaconda # For most packages
   - https://repo.anaconda.com/pkgs/snowflake # For Snowflake Specific
   - conda-forge # For DVC and Dagshub
 dependencies:
-  - python=3.10
+  - python=3.11
   - ipykernel
   - nbconvert
   - nbformat
   - python-dotenv
   - seaborn
-  - snowflake-snowpark-python[pandas]
   - scikit-learn
   - xgboost
   - absl-py
@@ -21,8 +20,9 @@ dependencies:
   - pandas
   - pyyaml
   - typing-extensions
-  - snowflake-ml-python
   - dvc
   - pip
   - pip:
     - dagshub
+    - snowflake-snowpark-python[pandas]
+    - snowflake-ml-python
