@@ -1,0 +1,10 @@
+stages:
+  load_data:
+    wdir: ../../
+    cmd: python src/load_data.py
+    deps:
+      - src/utils/snowflake.py
+    params:
+        - model.source_data
+    outs:
+    - data/raw/titanic.csv
