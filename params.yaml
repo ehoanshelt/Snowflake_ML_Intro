@@ -1,2 +1,3 @@
 model:
   version: V_1
+  source_data: https://raw.githubusercontent.com/mwaskom/seaborn-data/master/titanic.csv

@@ -26,7 +26,6 @@ def logger(func):
 
     return wrapper
 
-
 def convert_to_all_caps(c):
     """
     Converts a given string to all capital letters and separates words with underscores.

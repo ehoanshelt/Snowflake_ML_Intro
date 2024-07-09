@@ -1,0 +1,17 @@
+schema: '2.0'
+stages:
+  load_data:
+    cmd: python src/load_data.py
+    deps:
+    - path: src/utils/snowflake.py
+      hash: md5
+      md5: aa02ca8e236c7a409bd058fa9674bd12
+      size: 1047
+    params:
+      params.yaml:
+        model.source_data: https://raw.githubusercontent.com/mwaskom/seaborn-data/master/titanic.csv
+    outs:
+    - path: data/raw/titanic.csv
+      hash: md5
+      md5: 8019fd24deb0f9e90b6149ccbe90e8bc
+      size: 57018
