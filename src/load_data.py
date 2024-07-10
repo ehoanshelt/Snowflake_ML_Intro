@@ -10,9 +10,7 @@ def load_data():
     load_dotenv()
     cocam_sf = CoCam_SnowFlake(os.getenv('SNOWFLAKE_DATABASE'), os.getenv('SNOWFLAKE_SCHEMA'))
     cocam_sf.connect()
-    cocam_sf.create_snowflake_stage("TITANIC_DATA")
 
-    model_version = yaml.safe_load(open("params.yaml"))["model"]["version"]
     source_data = yaml.safe_load(open("params.yaml"))["model"]["source_data"]
 
     titanic = pd.read_csv(source_data)
