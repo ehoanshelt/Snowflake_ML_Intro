@@ -120,24 +120,17 @@ def get_next_version(reg, model_name) -> str:
     return f"V_{max_version_number + 1}"
 
 
-def count_all_nulls(df) -> dict:
+def count_all_nulls(df:pd.DataFrame) -> list:
     """
-    Counts the number of null values in each column of a DataFrame and returns a dictionary
-    with column names as keys and the corresponding count of null values as values.
+    Finds all columns that have nulls in them and returns the columns in a list
 
     Args:
         df: The DataFrame to count null values in.
 
     Returns:
-        dict: A dictionary with column names as keys and the count of null values as values.
+        list: A list with column names.
     """
-    return {
-        k: v
-        for k, v in {
-            c: df.where(F.col(c).is_null()).count() for c in df.columns
-        }.items()
-        if v > 0
-    }
+    return df.columns[df.isna().any()].tolist()
 
 
 def get_version_with_highest_accuracy(reg: Registry, model_name: str):

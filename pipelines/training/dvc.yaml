@@ -8,3 +8,14 @@ stages:
         - model.source_data
     outs:
     - data/raw/titanic.csv
+  featurization:
+    cmd: python src/featurization.py
+    wdir: ../../
+    deps:
+    - data/raw/titanic.csv
+    - src/load_data.py
+    - src/utils/snowflake.py
+    - src/utils/common.py
+    outs:
+    - data/featurized/titanic.csv
+    - models/featurized/featurized.pkl

@@ -7,9 +7,8 @@ from snowflake.ml.utils.connection_params import SnowflakeLoginOptions
 from snowflake.snowpark import Session
 
 class CoCam_SnowFlake():
-    def __init__(self, SF_DATABASE:str,SF_SCHEMA:str ) -> None:
-        self.database = SF_DATABASE
-        self.schema = SF_SCHEMA
+    def __init__(self ) -> None:
+        pass
     
     def __str__(self):
         return f"Use .connect function to connect to {self.database}.{self.schema}"
@@ -17,6 +16,8 @@ class CoCam_SnowFlake():
 
     def connect(self) -> None:
         load_dotenv()
+        self.database = os.getenv('SNOWFLAKE_DATABASE')
+        self.schema = os.getenv('SNOWFLAKE_SCHEMA')
         session = Session.builder.configs(SnowflakeLoginOptions()).getOrCreate()
         session.sql("USE " + self.database).collect()
         session.sql("CREATE SCHEMA IF NOT EXISTS " + self.schema).collect()

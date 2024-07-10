@@ -7,8 +7,7 @@ from utils.snowflake import CoCam_SnowFlake
 
 
 def load_data():
-    load_dotenv()
-    cocam_sf = CoCam_SnowFlake(os.getenv('SNOWFLAKE_DATABASE'), os.getenv('SNOWFLAKE_SCHEMA'))
+    cocam_sf = CoCam_SnowFlake()
     cocam_sf.connect()
 
     source_data = yaml.safe_load(open("params.yaml"))["model"]["source_data"]
