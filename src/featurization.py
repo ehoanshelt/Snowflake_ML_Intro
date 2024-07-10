@@ -2,37 +2,27 @@ import warnings
 import pandas as pd
 import os
 import pickle
-from dotenv import load_dotenv
-from snowflake.ml.modeling.impute import SimpleImputer
 from snowflake.ml.modeling.preprocessing import OneHotEncoder
 from snowflake.ml.modeling.pipeline import Pipeline
-from utils.common import (count_all_nulls)
 from utils.snowflake import CoCam_SnowFlake
+from utils.common import (clean_column_names)
 
 warnings.simplefilter(action="ignore", category=UserWarning)
 
 
 def featurize_data():
     titanic_df = pd.read_csv('data/raw/titanic.csv')
-    columns_with_nulls = count_all_nulls(titanic_df)
-    titanic_df.drop(columns_with_nulls, axis=1, inplace=True)
+    titanic_df.dropna(inplace=True)
     titanic_df['FARE'] = titanic_df['FARE'].astype(float)
-    cat_cols = titanic_df.select_dtypes(include=['object'])
+    cat_cols = titanic_df.select_dtypes(include=['object']).columns
+
+    #print("---- Found Categorical Column" + cat_cols )
 
     cocam_sf = CoCam_SnowFlake()
     cocam_sf.connect()
 
     pipeline = Pipeline(
         steps=[
-            (
-                "SimpleImputer",
-                SimpleImputer(
-                    input_cols=cat_cols,
-                    output_cols=cat_cols,
-                    strategy="most_frequent",
-                    drop_input_cols=True,
-                ),
-            ),
             (
                 "OneHotEncoder",
                 OneHotEncoder(
@@ -46,17 +36,27 @@ def featurize_data():
         ]
     )
 
-    pipeline.fit(titanic_df).transform(titanic_df)
+    print("---- Running Pipeline")
+
+    pipeline.fit(titanic_df)
+    featurized_df = pipeline.transform(titanic_df)
+
+    featurized_df.columns = clean_column_names(featurized_df)
+
+    print("---- Writing Featurized Dataset")
 
     os.makedirs('data/featurized', exist_ok=True)
-    titanic_df.to_csv("data/featurized/titanic.csv", index=False, mode='w+')
+    featurized_df.to_csv("data/featurized/titanic.csv", index=False, mode='w+')
+
+    print("---- Writing Pipeline Pickle File")
 
     os.makedirs('models/featurized', exist_ok=True)
     pickle.dump(pipeline, open('models/featurized/featurized.pkl', 'wb'))
+
+    print("---- Successfully Featurized Data")
 
 
 
 
 if __name__ == "__main__":
     featurize_data()
-    print("Successfully loaded Data")

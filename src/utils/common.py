@@ -26,6 +26,10 @@ def logger(func):
 
     return wrapper
 
+def clean_column_names(df:pd.DataFrame):
+    return [columns.replace('"', '') for columns in df.columns]
+        
+
 def convert_to_all_caps(c):
     """
     Converts a given string to all capital letters and separates words with underscores.
@@ -55,6 +59,18 @@ def rename_columns_all_caps(df):
     """
     return df.to_df([convert_to_all_caps(c) for c in df.columns])
 
+
+def rename_columns_all_caps(df):
+    """
+    Renames all columns in the DataFrame to uppercase.
+
+    Args:
+        df (snowpark.DataFrame): The input DataFrame.
+
+    Returns:
+        snowpark.DataFrame: The DataFrame with all column names converted to uppercase.
+    """
+    return df.to_df([convert_to_all_caps(c) for c in df.columns])
 
 def read_url_csv(session: Session, url: str):
     df_pandas = pd.read_csv(url)
