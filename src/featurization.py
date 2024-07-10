@@ -9,10 +9,16 @@ from utils.common import (clean_column_names)
 
 warnings.simplefilter(action="ignore", category=UserWarning)
 
+# Create a Branch
+# Drop Alive Column
+# Run Repro
+# Change branch back to main
+# DVC pull
 
 def featurize_data():
     titanic_df = pd.read_csv('data/raw/titanic.csv')
     titanic_df.dropna(inplace=True)
+    titanic_df.drop('ALIVE', axis=1, inplace=True)
     titanic_df['FARE'] = titanic_df['FARE'].astype(float)
     cat_cols = titanic_df.select_dtypes(include=['object']).columns
 
