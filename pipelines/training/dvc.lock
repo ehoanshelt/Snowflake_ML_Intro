@@ -5,14 +5,41 @@ stages:
     deps:
     - path: src/utils/snowflake.py
       hash: md5
-      md5: aa02ca8e236c7a409bd058fa9674bd12
-      size: 1047
+      md5: 1d62ca7115114dbae64dc7b6a993b0e4
+      size: 1069
     params:
       params.yaml:
         model.source_data: https://raw.githubusercontent.com/mwaskom/seaborn-data/master/titanic.csv
-        model.version: V_1
     outs:
     - path: data/raw/titanic.csv
       hash: md5
       md5: 8019fd24deb0f9e90b6149ccbe90e8bc
       size: 57018
+  featurization:
+    cmd: python src/featurization.py
+    deps:
+    - path: data/raw/titanic.csv
+      hash: md5
+      md5: 8019fd24deb0f9e90b6149ccbe90e8bc
+      size: 57018
+    - path: src/load_data.py
+      hash: md5
+      md5: 61989a10a9ef0f5ab2741745aff99b9b
+      size: 604
+    - path: src/utils/common.py
+      hash: md5
+      md5: 980995f0e0704a84dc0d3fca296aac04
+      size: 4845
+    - path: src/utils/snowflake.py
+      hash: md5
+      md5: 1d62ca7115114dbae64dc7b6a993b0e4
+      size: 1069
+    outs:
+    - path: data/featurized/titanic.csv
+      hash: md5
+      md5: 91fa8b970277dee918152b3465b5e5d1
+      size: 40165
+    - path: models/featurized/featurized.pkl
+      hash: md5
+      md5: 16144980cc504b06bb52dc33739c2624
+      size: 3667
