@@ -16,6 +16,7 @@ stages:
     - src/load_data.py
     - src/utils/snowflake.py
     - src/utils/common.py
+    - src/featurization.py
     outs:
     - data/featurized/titanic.csv
     - models/featurized/featurized.pkl

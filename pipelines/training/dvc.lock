@@ -22,14 +22,18 @@ stages:
       hash: md5
       md5: 8019fd24deb0f9e90b6149ccbe90e8bc
       size: 57018
+    - path: src/featurization.py
+      hash: md5
+      md5: 56d2e208579463bd35d4edc64bf32d28
+      size: 1684
     - path: src/load_data.py
       hash: md5
       md5: 61989a10a9ef0f5ab2741745aff99b9b
       size: 604
     - path: src/utils/common.py
       hash: md5
-      md5: 980995f0e0704a84dc0d3fca296aac04
-      size: 4845
+      md5: 391be8b6ea23ec4ca3a12e0c17375c44
+      size: 5298
     - path: src/utils/snowflake.py
       hash: md5
       md5: 1d62ca7115114dbae64dc7b6a993b0e4
@@ -37,9 +41,9 @@ stages:
     outs:
     - path: data/featurized/titanic.csv
       hash: md5
-      md5: 91fa8b970277dee918152b3465b5e5d1
-      size: 40165
+      md5: 867c9ca922501e29e16d14fe1bb7aa7f
+      size: 17446
     - path: models/featurized/featurized.pkl
       hash: md5
-      md5: 16144980cc504b06bb52dc33739c2624
-      size: 3667
+      md5: 2e87ada968197a0938507539e80ad7bf
+      size: 3878
