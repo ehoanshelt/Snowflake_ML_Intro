@@ -6,5 +6,6 @@ stages:
       - src/utils/snowflake.py
     params:
         - model.source_data
+        - model.version
     outs:
     - data/raw/titanic.csv
