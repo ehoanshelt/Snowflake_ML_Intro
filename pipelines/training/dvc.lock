@@ -24,8 +24,8 @@ stages:
       size: 57018
     - path: src/featurization.py
       hash: md5
-      md5: 15e77457a656b4da155690b488d66745
-      size: 2765
+      md5: 452dda70e2c257db8b9fc097860a354d
+      size: 3028
     - path: src/load_data.py
       hash: md5
       md5: 9c1a051f3b006547e8876761303733c4
@@ -38,8 +38,19 @@ stages:
       hash: md5
       md5: 1d62ca7115114dbae64dc7b6a993b0e4
       size: 1069
+    params:
+      params.yaml:
+        model.featurized.drop_columns:
+        - ALIVE
+        - DECK
+        - ADULT_MALE
+        - WHO
     outs:
     - path: data/featurized/titanic.csv
       hash: md5
       md5: 55078530d3d82b549008efdb9357bee3
       size: 125095
+    - path: models/featurized/featurized.pkl
+      hash: md5
+      md5: c3675ef30d572dadcf44a545ceddf8b4
+      size: 5416
