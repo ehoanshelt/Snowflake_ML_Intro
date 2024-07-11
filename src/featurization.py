@@ -4,8 +4,9 @@ import os
 import pickle
 import yaml
 import numpy as np
-from snowflake.ml.modeling.preprocessing import OneHotEncoder
+from snowflake.ml.modeling.preprocessing import OneHotEncoder, StandardScaler
 from snowflake.ml.modeling.impute import SimpleImputer
+from snowflake.ml.modeling.compose import ColumnTransformer
 from snowflake.ml.modeling.pipeline import Pipeline
 from utils.snowflake import CoCam_SnowFlake
 from utils.common import (clean_column_names)
@@ -18,6 +19,7 @@ def featurize_data():
     titanic_df.drop(['ALIVE', 'DECK'], axis=1, inplace=True)
     titanic_df.dropna(subset="EMBARKED",inplace=True)
     cat_cols:list = titanic_df.select_dtypes(include="O").columns.to_list()
+    num_cols = ["AGE", "FARE"]
 
     cocam_sf = CoCam_SnowFlake()
     cocam_sf.connect()
@@ -28,13 +30,11 @@ def featurize_data():
     # Need to add numic pipeline
     # simpleimputer will be mean and need to scale the inputs
 
-    pipeline = Pipeline(
+    cat_transformers = Pipeline(
         steps=[
             (
             "SimpleImputer",
                 SimpleImputer(
-                    input_cols=cat_cols,
-                    output_cols=cat_cols,
                     strategy='constant',
                     fill_value='missing',
                     drop_input_cols=True
@@ -43,8 +43,6 @@ def featurize_data():
             (
                 "OneHotEncoder",
                 OneHotEncoder(
-                    input_cols=cat_cols,
-                    output_cols=cat_cols,
                     drop_input_cols=True,
                     drop="first",
                     handle_unknown="ignore",
@@ -53,11 +51,38 @@ def featurize_data():
         ]
     )
 
+    numeric_transformers = Pipeline(
+            steps=[
+                (
+                "SimpleImputer",
+                    SimpleImputer(
+                        strategy='mean',
+                        drop_input_cols=True
+                    ),
+                ),
+                (
+                    "StandardScaler",
+                    StandardScaler(
+                        drop_input_cols=True
+                    ),
+                )
+            ]
+        )
+    
+    preprocessor = ColumnTransformer(
+                        input_cols = cat_cols + num_cols,
+                        transformers=[
+                            ('cat', cat_transformers,cat_cols),
+                            ('num', numeric_transformers, num_cols)
+                        ],
+                        output_cols = cat_cols + num_cols,
+                )
+
     print("---- Fitting Pipeline")
-    pipeline.fit(titanic_df)
+    preprocessor.fit(titanic_df)
 
     print("---- Transforming Data")
-    featurized_df = pipeline.transform(titanic_df)
+    featurized_df = preprocessor.transform(titanic_df)
 
     featurized_df.columns = clean_column_names(featurized_df)
 
@@ -69,7 +94,7 @@ def featurize_data():
     print("---- Writing Pipeline Pickle File")
 
     os.makedirs('models/featurized', exist_ok=True)
-    pickle.dump(pipeline, open('models/featurized/featurized.pkl', 'wb'))
+    pickle.dump(preprocessor, open('models/featurized/featurized.pkl', 'wb'))
 
     print("---- Successfully Featurized Data")
 

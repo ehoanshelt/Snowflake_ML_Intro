@@ -24,8 +24,8 @@ stages:
       size: 57018
     - path: src/featurization.py
       hash: md5
-      md5: 66cfbfd45de9745b686d395d5ef0b43f
-      size: 2149
+      md5: 0a94c70088c0260a06c54bbd2b9d13fb
+      size: 2415
     - path: src/load_data.py
       hash: md5
       md5: 9c1a051f3b006547e8876761303733c4
