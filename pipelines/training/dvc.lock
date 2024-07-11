@@ -24,8 +24,8 @@ stages:
       size: 57018
     - path: src/featurization.py
       hash: md5
-      md5: 0a94c70088c0260a06c54bbd2b9d13fb
-      size: 2415
+      md5: 15e77457a656b4da155690b488d66745
+      size: 2765
     - path: src/load_data.py
       hash: md5
       md5: 9c1a051f3b006547e8876761303733c4
@@ -41,5 +41,5 @@ stages:
     outs:
     - path: data/featurized/titanic.csv
       hash: md5
-      md5: f934e422a404f40ffef0d83c0ad4828b
-      size: 58008
+      md5: 55078530d3d82b549008efdb9357bee3
+      size: 125095
