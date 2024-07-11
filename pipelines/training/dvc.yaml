@@ -19,4 +19,4 @@ stages:
     - src/featurization.py
     outs:
     - data/featurized/titanic.csv
-    - models/featurized/featurized.pkl
+    #- models/featurized/featurized.pkl

@@ -1,6 +1,5 @@
 import os
 import yaml
-from dotenv import load_dotenv
 import pandas as pd
 import snowflake.snowpark.functions as F
 from utils.snowflake import CoCam_SnowFlake

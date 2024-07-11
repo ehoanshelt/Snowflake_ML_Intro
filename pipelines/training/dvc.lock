@@ -24,12 +24,12 @@ stages:
       size: 57018
     - path: src/featurization.py
       hash: md5
-      md5: ad5717849a6256db21ab72402b7fb3d5
-      size: 1825
+      md5: 15e77457a656b4da155690b488d66745
+      size: 2765
     - path: src/load_data.py
       hash: md5
-      md5: 61989a10a9ef0f5ab2741745aff99b9b
-      size: 604
+      md5: 9c1a051f3b006547e8876761303733c4
+      size: 573
     - path: src/utils/common.py
       hash: md5
       md5: 391be8b6ea23ec4ca3a12e0c17375c44
@@ -41,9 +41,5 @@ stages:
     outs:
     - path: data/featurized/titanic.csv
       hash: md5
-      md5: da1edd1b7956ab03bc0f7855f75f633e
-      size: 16708
-    - path: models/featurized/featurized.pkl
-      hash: md5
-      md5: 9bdd4f15b82013579abde26da5ada8e5
-      size: 3745
+      md5: 55078530d3d82b549008efdb9357bee3
+      size: 125095
