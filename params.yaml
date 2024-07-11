@@ -2,4 +2,4 @@ model:
   version: V_1
   source_data: https://raw.githubusercontent.com/mwaskom/seaborn-data/master/titanic.csv
   featurized:
-    scaled_columns: ["AGE", "FARE"]
+    drop_columns: ['ALIVE', 'DECK', 'ADULT_MALE', 'WHO']

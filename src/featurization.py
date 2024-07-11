@@ -13,11 +13,19 @@ from utils.common import (clean_column_names)
 warnings.simplefilter(action="ignore", category=UserWarning)
 
 def featurize_data():
+    # Load up Data and Parameters
     titanic_df = pd.read_csv('data/raw/titanic.csv')
+    params = yaml.safe_load(open('params.yaml'))["model"]
+
+    # Fix Up Data and Engineer Features
     titanic_df['FARE'] = titanic_df['FARE'].astype(float)
-    titanic_df.dropna(subset="EMBARKED",inplace=True)
+    titanic_df.dropna(subset='EMBARKED',inplace=True)
     titanic_df["IS_CHILD"] = titanic_df["WHO"].apply(lambda x: True if x == 'child' else False)
-    titanic_df.drop(['ALIVE', 'DECK', 'ADULT_MALE', 'WHO'], axis=1, inplace=True)
+
+    # Drop columns we no longer need. Set in params.yml
+    titanic_df.drop(list(params['featurized']['drop_columns']), axis=1, inplace=True)
+
+    # Identify the columns we need to apply different transformers.
     cat_cols:list = titanic_df.select_dtypes(include="O").columns
     num_cols:list = titanic_df.drop('SURVIVED', axis=1).select_dtypes(include=['int64', 'float64']).columns
 

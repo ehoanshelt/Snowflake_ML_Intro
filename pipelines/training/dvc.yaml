@@ -5,18 +5,20 @@ stages:
     deps:
       - src/utils/snowflake.py
     params:
-        - model.source_data
+      - model.source_data
     outs:
-    - data/raw/titanic.csv
+      - data/raw/titanic.csv
   featurization:
     cmd: python src/featurization.py
     wdir: ../../
     deps:
-    - data/raw/titanic.csv
-    - src/load_data.py
-    - src/utils/snowflake.py
-    - src/utils/common.py
-    - src/featurization.py
+      - data/raw/titanic.csv
+      - src/load_data.py
+      - src/utils/snowflake.py
+      - src/utils/common.py
+      - src/featurization.py
+    params:
+      - model.featurized.drop_columns
     outs:
-    - data/featurized/titanic.csv
-    #- models/featurized/featurized.pkl
+      - data/featurized/titanic.csv
+      - models/featurized/featurized.pkl
